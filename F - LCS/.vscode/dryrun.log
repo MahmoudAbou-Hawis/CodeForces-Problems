@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/sofar/Problem-Solving/F - LCS'
+make: Leaving directory '/home/sofar/Problem-Solving/F - LCS'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+

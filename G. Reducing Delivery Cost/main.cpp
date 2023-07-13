@@ -1,10 +1,8 @@
 #include <bits/stdc++.h>
+using namespace std;
 #define Code ios_base::sync_with_stdio(false);
 #define By cin.tie(0);
-#define So_Far cout.tie(0);
-#define fi(i,s,e) for(int i =s;i<e;i++)
-#define fd(i,e,s) for(int i=e;i>=s;i--)
-using namespace std;
+#define Abou_Hawis cout.tie(0);
 using ll = long long;
 using vi = vector<int>;
 #define pb push_back
@@ -15,75 +13,144 @@ using pi = pair<int,int>;
 #define f first
 #define s second
 #define mp make_pair
-#define infinity 0x3f3f3f3f
-void setIO(string name = "") {
-    Code By So_Far
-    if(sz(name)){
-        freopen((name+".in").c_str(), "r", stdin);
-        freopen((name+".out").c_str(), "w", stdout);
-    }
-}
-const int N=2000;
-int dis[N][N];
-int Costs[N];
-vector<pi>adj[N];
+const long long int MOD=1e9 + 7, OO=0x3f3f3f3f;
+const long long int  LOO=0x3f3f3f3f3f3f3f3f;
+const long double EPS=1e-8;
+const int N = 1e5 + 9 ;
 
-void clr(){
-    fi(i,0,N){
-        Costs[i]=infinity;
+struct Node
+{
+    int id = 0;
+    ll dist = LOO;
+    vector<pair<ll,Node*>>neighbors = {};
+    Node(int _id) : id(_id){}
+};
+
+struct Edge
+{
+    int from = 0;
+    int to   = 0;
+};
+
+class weightedGraph
+{
+    protected :
+    vector<Node*>Nodes;
+    int NodesNumber;
+    int EdgesNumber;
+    private :
+    void graphInit()
+    {
+        Nodes = vector<Node*>(NodesNumber);
+        for(int i = 0 ; i < NodesNumber ; i++)
+        {
+            Nodes[i] = new Node(i+1);
+        }
     }
-}
-void dijkstra(int src){
-    priority_queue<pi>priorityQueue;
-    priorityQueue.push({0,src});
-    Costs[src]=0;
-    while(!priorityQueue.empty()){
-        pi node = priorityQueue.top();
-        priorityQueue.pop();
-           node.first*=-1;
-        if(node.first != Costs[node.second])
-            continue;
-        for(auto child : adj[node.second]){
-            if(node.first + child.first < Costs[child.second]){
-                dis[src][child.second]=node.first+child.first;
-                Costs[child.second]=node.first+child.first;
-                priorityQueue.push({-Costs[child.second],child.second});
+    public :
+
+    void addEdge(int FirstNode , int SecondNode , int Cost)
+    {
+        Nodes[FirstNode-1]->neighbors.push_back({Cost,Nodes[SecondNode-1]});
+        Nodes[SecondNode-1]->neighbors.push_back({Cost,Nodes[FirstNode-1]});
+    }
+
+    weightedGraph(int _NodeNumber ,int _EdgesNumber) : NodesNumber(_NodeNumber) ,EdgesNumber(_EdgesNumber) 
+    {
+        graphInit();
+    }
+};
+
+class Reducing_Delivery_Cost : public weightedGraph
+{
+    private :
+    vector<vector<int>>Costs;
+    void DijkstraAlg(Node * Src)
+    {
+        priority_queue<pair<ll,Node*>,vector<pair<ll,Node*>>,greater<pair<ll,Node*>>>CheapestNodes;
+        Src->dist = 0;
+        CheapestNodes.push({Src->dist,Src});
+        while(!CheapestNodes.empty())
+        {
+            auto CurrNode = CheapestNodes.top();
+            CheapestNodes.pop();
+            if(CurrNode.first != CurrNode.second->dist)
+            {
+                continue;
             }
+            for(auto &Neighbour : CurrNode.second->neighbors)
+            {
+                if(Neighbour.second->dist > CurrNode.first + Neighbour.first)
+                {
+
+                    Neighbour.second->dist = CurrNode.first + Neighbour.first;
+                    Costs[Src->id][Neighbour.second->id] = Neighbour.second->dist;
+                    CheapestNodes.push({Neighbour.second->dist,Neighbour.second});
+                }
+            }
+
         }
     }
-}
-int main() {
-    setIO();
-    int n,m,q;
-    cin>>n>>m>>q;
-    vector<pi>edges;
-    for(int i = 0 ; i < m ; i++){
-        int a,b,c;
-        cin>>a>>b>>c;
-        edges.push_back({a,b});
-        adj[a].pb({c,b});
-        adj[b].pb({c,a});
-    }
-    for(int i = 1 ; i <=n;i++) {
-        clr();
-        dijkstra(i);
-    }
-    vector<pi>qu;
-    for(int i = 0 ; i < q; i++){
-        int a,b;
-        cin>>a>>b;
-        qu.pb({a,b});
-    }
-    long long int  reult  = 1e9;
-    for(int i=0;i<m;i++){
-        long long int sum = 0;
-        int VertixX= edges[i].first;
-        int VertixY = edges[i].second;
-        for(int e = 0 ;e <q;e++){
-            sum+=min({dis[qu[e].first][qu[e].second], dis[qu[e].first][VertixX] + dis[VertixY][qu[e].second] , dis[qu[e].f][VertixY]+dis[VertixX][qu[e].s] });
+    public :
+    void AllDijkstra()
+    {
+        for(int i = 0 ; i < NodesNumber ; i++)
+        {
+            for(int e = 0 ; e < NodesNumber ; e++)
+            {
+                Nodes[e]->dist = LOO;
+            }
+            DijkstraAlg(Nodes[i]);
         }
-        reult=min(reult , sum);
     }
-    cout<<reult<<'\n';
+    int getValue(int i , int e)
+    {
+        return Costs[i][e];
+    }
+    Reducing_Delivery_Cost(int NodesNumber , int EdgesNumber) : weightedGraph(NodesNumber , EdgesNumber) 
+    {
+        Costs = vector<vector<int>>(NodesNumber+10 , vector<int>(NodesNumber+10,0));
+    }
+};
+
+
+
+int main()
+{
+    Code By Abou_Hawis
+    int n, m, k;
+    cin >> n >> m >>k;
+    Reducing_Delivery_Cost dijkstra(n,m);
+    vector<Edge>Edges(m);
+    for(int i = 0 ; i < m ; i++)
+    {
+        int a, b, c;
+        cin >> a >> b >> c;
+        dijkstra.addEdge(a,b,c);
+        Edges[i].from = a;
+        Edges[i].to   = b;
+    }
+    dijkstra.AllDijkstra();
+    vector<pi>paths;
+    for(int i = 0 ; i < k ; i++)
+    {
+        int a, b;
+        cin >> a >> b;
+        paths.pb({a,b});
+    }
+    ll result = INT64_MAX;
+    for(int i = 0 ;i  < m ; i++)
+    {
+        auto _Edge = Edges[i];
+        ll sum = 0;
+        for(int j = 0 ; j < k ; j++)
+        {
+            sum += min({dijkstra.getValue(paths[j].f , paths[j].s)
+                       ,dijkstra.getValue(paths[j].f , _Edge.from) + dijkstra.getValue(_Edge.to ,paths[j].s ) 
+                       ,dijkstra.getValue(paths[j].f , _Edge.to)   + dijkstra.getValue(_Edge.from ,paths[j].s)});
+        }
+        result = min(result , sum);
+    }
+    cout << result << '\n';
     return 0;
 }

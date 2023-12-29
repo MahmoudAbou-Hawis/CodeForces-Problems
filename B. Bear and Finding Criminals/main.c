@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+#define Code ios_base::sync_with_stdio(false);
+#define By cin.tie(0);
+#define So_Far cout.tie(0);
+#define fi(i,s,e) for(int i =s;i<e;i++)
+#define fd(i,e,s) for(int i=e;i>=s;i--)
+using namespace std;
+using ll = long long;
+using vi = vector<int>;
+#define pb push_back
+#define rsz resize
+#define all(x) begin(x), end(x)
+#define sz(x) (int)(x).size()
+using pi = pair<int,int>;
+#define f first
+#define s second
+#define mp make_pair
+void setIO(string name = "") {
+    Code By So_Far
+    if(sz(name)){
+        freopen((name+".in").c_str(), "r", stdin);
+        freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+int main() {
+    setIO();
+    int n , a;
+    cin >> n >> a;
+    vector<int>arr(n);
+    for(auto &i : arr)
+    {
+        cin >> i;
+    }
+    int num_iterations = max(a-1 , n - a);
+    int num_criminal = (arr[a-1] == 1)? 1:0 ;
+    for(int i = 1 ; i <= num_iterations ; i++)
+    {
+        int left = a-1-i;
+        int right = a-1+i;
+        if(left >=0 && right < n)
+        {
+            if(arr[left] == 1 && arr[left] == arr[right])
+            {
+                num_criminal+=2;
+            }
+        }
+        else if(left >= 0)
+        {
+            if(arr[left] == 1) num_criminal++;
+        }
+        else
+        {
+            if(arr[right] == 1) num_criminal++;
+        }
+    }
+    cout << num_criminal;
+    return 0;
+}

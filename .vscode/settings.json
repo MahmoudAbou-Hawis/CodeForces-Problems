@@ -2,7 +2,8 @@
     "files.associations": {
         "iostream": "cpp",
         "chrono": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "stdbool.h": "c"
     },
     "cSpell.words": [
         "ABOU",

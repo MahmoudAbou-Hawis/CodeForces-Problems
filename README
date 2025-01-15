@@ -1,1 +1,52 @@
-This problems from codeforces website which I solved successfully .
+
+# 🚀 Codeforces Solved Problems
+
+Welcome to my **Codeforces Solved Problems** repository! 🎯  
+This repository contains my solutions to various programming problems from [Codeforces](https://codeforces.com/). Each problem is organized in its own folder, with the solution in a `main.cpp` file.
+
+---
+
+## 📚 Repository Structure
+
+```
+├── Problem_Name/
+│   └── main.cpp
+├── Another_Problem/
+│   └── main.cpp
+└── README.md
+```
+
+Example:
+```
+├── Anton_and_Danik/
+│   └── main.cpp
+├── Bear_and_Big_Brother/
+│   └── main.cpp
+└── README.md
+```
+
+---
+
+## 🧑‍💻 How to Run a Solution
+
+1. Navigate to the folder of the problem you want to run.
+2. Compile the `main.cpp` file using a C++ compiler:
+
+   ```bash
+   g++ main.cpp -o solution
+   ```
+
+3. Run the compiled file:
+
+   ```bash
+   ./solution
+   ```
+
+---
+
+## 📧 Contact
+
+Feel free to connect with me for feedback or questions:
+
+- **GitHub**: [MahmoudAbou-Hawis](https://github.com/MahmoudAbou-Hawis)  
+- **YouTube**: [Mahmoud Abou-Hawis](https://www.youtube.com/@MahmoudAbou-Hawis)
